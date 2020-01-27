@@ -2,13 +2,13 @@ package main
 
 import (
 	"fmt"
+	"github.com/gohail/mafiosi/dataform/req"
+	"github.com/gohail/mafiosi/dataform/res"
+	"github.com/gohail/mafiosi/dataform/view"
+	"github.com/gohail/mafiosi/gamelogic"
+	"github.com/gohail/mafiosi/model"
 	"github.com/gorilla/websocket"
 	"go.uber.org/zap"
-	"mafiosi/dataform/req"
-	"mafiosi/dataform/res"
-	"mafiosi/dataform/view"
-	"mafiosi/gamelogic"
-	"mafiosi/model"
 	"net/http"
 )
 
@@ -57,15 +57,15 @@ func joinAction(c *websocket.Conn) {
 		zap.S().Error(err)
 		return
 	}
-		p := model.Player{
-		Conn:    c,
-		PlayerId:  0,
-		Name:    name,
-		Role:    "",
-		IsAlive: true,
+	p := model.Player{
+		Conn:     c,
+		PlayerId: 0,
+		Name:     name,
+		Role:     "",
+		IsAlive:  true,
 	}
 
-	if err = gamelogic.GameEngine.JoinToSession(p, gameId); err != nil{
+	if err = gamelogic.GameEngine.JoinToSession(p, gameId); err != nil {
 		zap.S().Error(err)
 	}
 }
