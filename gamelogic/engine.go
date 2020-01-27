@@ -3,20 +3,18 @@ package gamelogic
 import (
 	"errors"
 	"fmt"
+	"github.com/gohail/mafiosi/model"
+	"github.com/gohail/mafiosi/utils"
 	"go.uber.org/zap"
-	"mafiosi/model"
-	"mafiosi/utils"
 )
 
 var GameEngine = InitEngine()
-
-
 
 type Engine struct {
 	sessions map[int]*GameSession
 }
 
-func InitEngine() *Engine{
+func InitEngine() *Engine {
 	return &Engine{sessions: make(map[int]*GameSession)}
 }
 

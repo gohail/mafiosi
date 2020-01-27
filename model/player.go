@@ -1,8 +1,8 @@
 package model
 
 import (
+	"github.com/gohail/mafiosi/dataform/res"
 	"github.com/gorilla/websocket"
-	"mafiosi/dataform/res"
 )
 
 type Player struct {
@@ -23,7 +23,7 @@ func NewPlayer(c *websocket.Conn, id int, name string, role string) *Player {
 	}
 }
 
-func (p *Player) ToPlayerInfo() res.PlayerInfo{
+func (p *Player) ToPlayerInfo() res.PlayerInfo {
 	return res.PlayerInfo{
 		Index: p.PlayerId,
 		Name:  p.Name,

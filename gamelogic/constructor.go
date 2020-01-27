@@ -2,7 +2,7 @@ package gamelogic
 
 import (
 	"fmt"
-	"mafiosi/dataform/res"
+	"github.com/gohail/mafiosi/dataform/res"
 )
 
 func (s *GameSession) getPlayersInfo() res.PlayersInfo {

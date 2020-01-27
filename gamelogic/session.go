@@ -1,11 +1,11 @@
 package gamelogic
 
 import (
+	"github.com/gohail/mafiosi/dataform/req"
+	"github.com/gohail/mafiosi/dataform/res"
+	"github.com/gohail/mafiosi/dataform/view"
+	"github.com/gohail/mafiosi/model"
 	"go.uber.org/zap"
-	"mafiosi/dataform/req"
-	"mafiosi/dataform/res"
-	"mafiosi/dataform/view"
-	"mafiosi/model"
 )
 
 type GameSession struct {
