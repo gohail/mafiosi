@@ -1,9 +1,9 @@
 package gamelogic
 
 import (
-	"github.com/gohail/mafiosi/dataform/req"
-	"github.com/gohail/mafiosi/dataform/res"
-	"github.com/gohail/mafiosi/dataform/view"
+	"github.com/gohail/mafiosi/metadata/req"
+	"github.com/gohail/mafiosi/metadata/res"
+	"github.com/gohail/mafiosi/metadata/view"
 	"github.com/gohail/mafiosi/model"
 	"go.uber.org/zap"
 )

@@ -2,9 +2,9 @@ package res
 
 // Common server event
 type ServerEvent struct {
-	View  string `json:"view"`
-	Error string `json:"err"`
-	Data  Data   `json:"data"`
+	View  string      `json:"view"`
+	Error string      `json:"err"`
+	Data  interface{} `json:"data"`
 }
 
 // General data from game session

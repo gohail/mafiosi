@@ -1,7 +1,7 @@
 package model
 
 import (
-	"github.com/gohail/mafiosi/dataform/res"
+	"github.com/gohail/mafiosi/metadata/res"
 	"github.com/gorilla/websocket"
 )
 

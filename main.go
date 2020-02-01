@@ -2,14 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/gorilla/websocket"
+	"github.com/gohail/mafiosi/action"
 	"go.uber.org/zap"
 	"net/http"
 	"os"
 	"sync"
 )
-
-var u = websocket.Upgrader{}
 
 func main() {
 	fmt.Println("Mafiosi server run...")
@@ -18,11 +16,8 @@ func main() {
 
 	zap.ReplaceGlobals(logger)
 
-	http.HandleFunc("/", stream)
+	http.HandleFunc("/", action.ConnHandler)
 
-	u.CheckOrigin = func(r *http.Request) bool {
-		return true
-	}
 	wg := &sync.WaitGroup{}
 	wg.Add(1)
 	go startService(":8080", wg)
@@ -50,6 +45,3 @@ func startService(port string, wg *sync.WaitGroup) {
 	defer wg.Done()
 	must(http.ListenAndServe(port, nil), "failed to start server")
 }
-
-
-
