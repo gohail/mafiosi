@@ -34,9 +34,12 @@ func (s *GameSession) StartSession() {
 
 	var action req.ActionReq
 
+	// Waiting for owner NEXT action
 	for {
 		if err := s.Owner.Conn.ReadJSON(&action); err != nil {
 			zap.S().Error(err)
+			zap.S().Info("FATAL SESSION ERR: exit from game session!")
+			return
 		} else {
 			if "NEXT" == action.Action {
 				zap.S().Infof("SESSION:%d adding new players is closed", s.GameId)
@@ -44,6 +47,16 @@ func (s *GameSession) StartSession() {
 				break
 			}
 		}
+	}
+
+	if err := s.Owner.Conn.WriteJSON(res.ServerEvent{
+		View:  "",
+		Error: "",
+		Data:  s.getSessionData(),
+	}); err != nil {
+		zap.S().Error(err)
+		zap.S().Info("FATAL SESSION ERR: exit from game session!")
+		return
 	}
 
 }
@@ -62,9 +75,10 @@ func waitAllPlayers(s *GameSession, stop <-chan interface{}) {
 }
 
 func (s *GameSession) SendStartInfoToAll() {
+	data := s.getSessionData()
 	evt := res.ServerEvent{
 		View: view.OwnerStartInfo,
-		Data: s.getSessionData(),
+		Data: data,
 	}
 	if err := s.Owner.Conn.WriteJSON(evt); err != nil {
 		zap.S().Error(err)
@@ -72,11 +86,15 @@ func (s *GameSession) SendStartInfoToAll() {
 
 	evt = res.ServerEvent{
 		View: view.PlayerStartInfo,
-		Data: s.getSessionData(),
+		Data: data,
 	}
 	for _, p := range s.Players[1:] {
 		if err := p.Conn.WriteJSON(evt); err != nil {
 			zap.S().Error(err)
 		}
 	}
+}
+
+func (s *GameSession) clearRes() {
+	//TODO
 }

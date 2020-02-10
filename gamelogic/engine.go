@@ -71,3 +71,10 @@ func (e *Engine) CheckUniqName(id int, name string) bool {
 	}
 	return true
 }
+
+// Clean session
+func (e *Engine) cleanSession(id int) {
+	//TODO Clean session's resources
+	//s, ok := e.sessions[id]
+	//s.cleanRes()
+}

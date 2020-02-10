@@ -1,7 +1,6 @@
 package gamelogic
 
 import (
-	"fmt"
 	"github.com/gohail/mafiosi/metadata/res"
 )
 
@@ -9,7 +8,6 @@ func (s *GameSession) getPlayersInfo() res.PlayersInfo {
 	var list []res.PlayerInfo
 
 	for _, p := range s.Players {
-		fmt.Println("add NEW PLAYER INFO")
 		list = append(list, p.ToPlayerInfo())
 	}
 
@@ -23,5 +21,4 @@ func (s *GameSession) getSessionData() res.Data {
 		PlayersCount: s.PlayersCount,
 		PlayerList:   s.getPlayersInfo(),
 	}
-
 }

@@ -13,4 +13,5 @@ COPY . ./
 # Build the Go app and Command to run the executable
 RUN go build -o app .
 EXPOSE 8080
+# Use -host flag if needed "./app -host=yourhost:port" default:"localhost:8080"
 CMD ["./app"]

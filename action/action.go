@@ -16,7 +16,7 @@ import (
 const (
 	CreateGame = "CREATE_GAME"
 	JoinGame   = "JOIN_GAME"
-	Abort      = "ABORT"
+	Cancel     = "CANCEL"
 	Other      = "OTHER"
 )
 
@@ -68,8 +68,9 @@ func startActionListener(c *websocket.Conn) {
 		case JoinGame:
 			zap.S().Info("USER CALL JOIN ACTION")
 			joinGame(c)
-		case Abort:
+		case Cancel:
 			zap.S().Info("USER CALL ABORT")
+			return
 		default:
 			zap.S().Infof("UNKNOWN ACTION: \"%s\"", actRq.Action)
 			errMsg = fmt.Sprintf("Invalid action: %s", actRq.Action)
@@ -166,7 +167,7 @@ func playerNameReqLoop(c *websocket.Conn, sId int) (string, error) {
 			return "", err
 		}
 
-		if body.Action == Abort {
+		if body.Action == Cancel {
 			return "", errors.New("ABORT ACTION SELECTED")
 		}
 
@@ -182,37 +183,3 @@ func playerNameReqLoop(c *websocket.Conn, sId int) (string, error) {
 		}
 	}
 }
-
-/*func stream(w http.ResponseWriter, r *http.Request) {
-	zap.S().Infow("new connection:", "URL:", r.URL)
-	c, err := u.Upgrade(w, r, nil)
-	if err != nil {
-		zap.S().Error(err)
-	}
-
-	if err = c.WriteJSON(res.ServerEvent{
-		View: view.ConnectionAction,
-	}); err != nil {
-		zap.S().Error(err)
-	}
-
-	var action req.ActionReq
-	err = c.ReadJSON(&action)
-	if err != nil {
-		zap.S().Error(err)
-	}
-
-	switch action.Action {
-	case "CREATE":
-		zap.S().Info("USER CALL CREATE ACTION")
-		createGame(c)
-	case "JOIN":
-		zap.S().Info("USER CALL JOIN ACTION")
-		joinGame(c)
-	default:
-		zap.S().Infof("Unknown ACTION: %s", action.Action)
-		if err = c.Close(); err != nil {
-			zap.Error(err)
-		}
-	}
-}*/
