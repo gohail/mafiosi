@@ -49,16 +49,13 @@ func (s *GameSession) StartSession() {
 		}
 	}
 
-	if err := s.Owner.Conn.WriteJSON(res.ServerEvent{
-		View:  "",
+	s.sendToAll(res.ServerEvent{
+		View:  view.StartView,
 		Error: "",
 		Data:  s.getSessionData(),
-	}); err != nil {
-		zap.S().Error(err)
-		zap.S().Info("FATAL SESSION ERR: exit from game session!")
-		return
-	}
+	})
 
+	s.clearRes()
 }
 
 func waitAllPlayers(s *GameSession, stop <-chan interface{}) {
@@ -71,7 +68,6 @@ func waitAllPlayers(s *GameSession, stop <-chan interface{}) {
 			return
 		}
 	}
-
 }
 
 func (s *GameSession) SendStartInfoToAll() {
@@ -90,6 +86,14 @@ func (s *GameSession) SendStartInfoToAll() {
 	}
 	for _, p := range s.Players[1:] {
 		if err := p.Conn.WriteJSON(evt); err != nil {
+			zap.S().Error(err)
+		}
+	}
+}
+
+func (s *GameSession) sendToAll(mess interface{}) {
+	for _, p := range s.Players {
+		if err := p.Conn.WriteJSON(mess); err != nil {
 			zap.S().Error(err)
 		}
 	}

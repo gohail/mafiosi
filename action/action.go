@@ -66,6 +66,7 @@ func startActionListener(c *websocket.Conn) {
 		case JoinGame:
 			zap.S().Info("USER CALL JOIN ACTION")
 			joinGame(c)
+			return
 		case Cancel:
 			zap.S().Info("USER CALL ABORT")
 			return
