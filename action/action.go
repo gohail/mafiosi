@@ -34,8 +34,6 @@ func ConnHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	startActionListener(c)
-	defer c.Close()
-
 }
 
 func startActionListener(c *websocket.Conn) {
@@ -103,12 +101,12 @@ func createGame(c *websocket.Conn) {
 func joinGame(c *websocket.Conn) {
 	gameId, err := gameIdReqLoop(c)
 	if err != nil {
-		zap.S().Error(err)
+		zap.S().Errorf("join game err: ", err)
 		return
 	}
 	name, err := playerNameReqLoop(c, gameId)
 	if err != nil {
-		zap.S().Error(err)
+		zap.S().Errorf("join game err: ", err)
 		return
 	}
 	p := model.Player{
@@ -134,15 +132,23 @@ func gameIdReqLoop(c *websocket.Conn) (id int, err error) {
 			return 0, err
 		}
 
-		var gameId req.IdForm
-		if err := c.ReadJSON(&gameId); err != nil {
+		var body struct {
+			req.IdForm
+			req.ActionReq
+		}
+
+		if err := c.ReadJSON(&body); err != nil {
 			zap.S().Error(err)
 		}
 
-		if gamelogic.GameEngine.CheckSessionId(gameId.ID) {
-			return gameId.ID, nil
+		if body.Action == Cancel {
+			return 0, errors.New("CANCEL ACTION SELECTED")
+		}
+
+		if gamelogic.GameEngine.CheckSessionId(body.ID) {
+			return body.ID, nil
 		} else {
-			errMsg = fmt.Sprintf("Invalid game ID: %d", gameId.ID)
+			errMsg = fmt.Sprintf("Invalid game ID: %d", body.ID)
 			zap.S().Error(errMsg)
 		}
 	}
@@ -168,7 +174,7 @@ func playerNameReqLoop(c *websocket.Conn, sId int) (string, error) {
 		}
 
 		if body.Action == Cancel {
-			return "", errors.New("ABORT ACTION SELECTED")
+			return "", errors.New("CANCEL ACTION SELECTED")
 		}
 
 		if body.Name != "" {

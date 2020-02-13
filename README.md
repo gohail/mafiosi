@@ -7,6 +7,18 @@ go build -o app
 ./app
 ```
 
+also
+```bash
+cd bin
+./app
+```
+Use -host flag if needed 
+```
+./app -host=yourhost:port 
+```
+default:"localhost:8080"
+
+
 ### Connection to WS
 
 
