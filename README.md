@@ -25,12 +25,12 @@ default:"localhost:8080"
 ### Docker container
 to create container of go application
 ```bash
-docker build . -t mafiosi:go-back
+docker build -t mafiosi:go-server . 
 ```
 ---
 to start docker container
 ```bash
-docker run -p 8080:8080 mafiosi:go-back
+docker run -p 8080:8080 mafiosi:go-server
 ```
 ---
 more information about installs and settings docker by [link](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
