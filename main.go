@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	host := flag.String("host", ":8080", "server's host:port")
+	host := flag.String("host", "0.0.0.0:8080", "server's host:port")
 	flag.Parse()
 
 	fmt.Println("Mafiosi server run...")
