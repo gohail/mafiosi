@@ -9,10 +9,10 @@ type ServerEvent struct {
 
 // General data from game session
 type Data struct {
-	Owner        PlayerInfo  `json:"owner"`
-	SessionID    int         `json:"s_id"`
-	PlayersCount int         `json:"p_count"`
-	PlayerList   PlayersInfo `json:"p_list"`
+	Owner        PlayerInfo   `json:"owner"`
+	SessionID    int          `json:"s_id"`
+	PlayersCount int          `json:"p_count"`
+	PlayerList   []PlayerInfo `json:"p_list"`
 }
 
 type PlayersInfo struct {

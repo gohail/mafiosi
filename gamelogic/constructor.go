@@ -4,14 +4,14 @@ import (
 	"github.com/gohail/mafiosi/metadata/res"
 )
 
-func (s *GameSession) getPlayersInfo() res.PlayersInfo {
+func (s *GameSession) getPlayersInfo() []res.PlayerInfo {
 	var list []res.PlayerInfo
 
 	for _, p := range s.Players {
 		list = append(list, p.ToPlayerInfo())
 	}
 
-	return res.PlayersInfo{Players: list}
+	return list
 }
 
 func (s *GameSession) getSessionData() res.Data {
