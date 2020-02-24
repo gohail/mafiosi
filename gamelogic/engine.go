@@ -38,6 +38,8 @@ func (e *Engine) JoinToSession(p model.Player, sessionId int) error {
 		return errors.New(fmt.Sprintf("game #%d already started", sessionId))
 	}
 
+	p.PlayerId = len(s.Players)
+
 	s.Players = append(s.Players, p)
 	s.PlayersCount = len(s.Players)
 	zap.S().Infof("SESSION:%d player %s joined", sessionId, p.Name)
