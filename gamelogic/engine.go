@@ -42,7 +42,7 @@ func (e *Engine) JoinToSession(p model.Player, sessionId int) error {
 
 	s.Players = append(s.Players, p)
 	s.PlayersCount = len(s.Players)
-	zap.S().Infof("SESSION:%d player %s joined", sessionId, p.Name)
+	zap.S().Infof("SESSION:%d player:%d %s joined", sessionId, p.PlayerId, p.Name)
 	return nil
 }
 
