@@ -3,7 +3,6 @@ package gamelogic
 import (
 	"errors"
 	"fmt"
-	"github.com/gohail/mafiosi/action"
 	"github.com/gohail/mafiosi/metadata/req"
 	"github.com/gohail/mafiosi/metadata/res"
 	"github.com/gohail/mafiosi/metadata/view"
@@ -37,7 +36,7 @@ func (s *GameSession) PrepareSession() {
 	s.JoinListener <- struct{}{}
 
 	// Waiting from owner NEXT actionReq
-	if err := waitAction(action.Next, s.Owner.Conn); err != nil {
+	if err := waitAction("NEXT", s.Owner.Conn); err != nil {
 		zap.S().Error("FATAL SESSION ERROR: exit from game session!")
 		zap.S().Error(err)
 		return
@@ -49,13 +48,13 @@ func (s *GameSession) PrepareSession() {
 
 	//Send to owner game-option view
 	s.sendToPlayer(s.Owner, res.ServerEvent{
-		View: "GAME_OPTION",
+		View: view.GameOption,
 		Data: s.getSessionData(),
 	})
 
 	//Send to other players wait view
 	s.sendToJoinPlayers(res.ServerEvent{
-		View: "WAITING_FOR_START",
+		View: view.WaitingForStart,
 		Data: s.getSessionData(),
 	})
 

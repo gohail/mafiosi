@@ -23,3 +23,8 @@ type PlayerInfo struct {
 	Index int    `json:"id"`
 	Name  string `json:"name"`
 }
+
+type InfoStruct struct {
+	View string        `json:"view"`
+	Exp  []interface{} `json:"expected"`
+}

@@ -18,6 +18,7 @@ const (
 	JoinGame   = "JOIN_GAME"
 	Cancel     = "CANCEL"
 	Next       = "NEXT"
+	DataFormat = "DATA_FORMAT"
 	Other      = "OTHER"
 )
 
@@ -71,6 +72,9 @@ func startActionListener(c *websocket.Conn) {
 		case Cancel:
 			zap.S().Info("USER CALL ABORT")
 			return
+		case DataFormat:
+			zap.S().Info("USER CALL DATA_FORMAT")
+			sendDataForms(c)
 		default:
 			zap.S().Infof("UNKNOWN ACTION: \"%s\"", actRq.Action)
 			errMsg = fmt.Sprintf("Invalid action: %s", actRq.Action)
@@ -190,4 +194,31 @@ func playerNameReqLoop(c *websocket.Conn, sId int) (string, error) {
 			zap.S().Info("user typo empty name!")
 		}
 	}
+}
+
+func sendDataForms(c *websocket.Conn) {
+	data := []res.InfoStruct{
+		{View: view.StartView, Exp: []interface{}{
+			req.ActionReq{Action: CreateGame},
+			req.ActionReq{Action: JoinGame},
+			req.ActionReq{Action: DataFormat},
+			req.ActionReq{Action: Cancel},
+		}},
+		{View: view.ReqName, Exp: []interface{}{req.NameForm{Name: "NeRD"}}},
+		{View: view.ReqGameId, Exp: []interface{}{req.IdForm{ID: 55555}}},
+		{View: view.OwnerStartInfo, Exp: []interface{}{req.ActionReq{Action: Next}}},
+		{View: view.PlayerStartInfo, Exp: []interface{}{"NOTHING, ONLY UPDATE VIEW IF PUSH DATA"}},
+		{View: view.GameOption, Exp: []interface{}{req.GameOption{
+			PlayersSeq: []int{3, 1, 2, 0},
+			MafNum:     1,
+			Cop:        false,
+		}}},
+	}
+
+	for _, v := range data {
+		if err := c.WriteJSON(v); err != nil {
+			zap.S().Error(err)
+		}
+	}
+
 }
