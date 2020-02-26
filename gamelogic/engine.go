@@ -25,7 +25,7 @@ func (e *Engine) CreateSession(owner model.Player, gameId int) {
 	session := NewGameSession(owner, gameId, 1, players)
 	zap.S().Infof("SESSION:%d created", session.GameId)
 	e.sessions[gameId] = session
-	session.StartSession()
+	session.PrepareSession()
 }
 
 func (e *Engine) JoinToSession(p model.Player, sessionId int) error {

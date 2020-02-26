@@ -17,6 +17,7 @@ const (
 	CreateGame = "CREATE_GAME"
 	JoinGame   = "JOIN_GAME"
 	Cancel     = "CANCEL"
+	Next       = "NEXT"
 	Other      = "OTHER"
 )
 
