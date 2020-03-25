@@ -15,3 +15,8 @@ func GenerateID() int {
 	r := rand.Intn(MaxID-MinID) + MinID
 	return r
 }
+
+func RandomIntArr(num int) []int {
+	list := rand.Perm(num)
+	return list
+}

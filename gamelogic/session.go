@@ -124,6 +124,26 @@ func (s *GameSession) sendToJoinPlayers(mess interface{}) {
 	}
 }
 
+func (s *GameSession) setPlayerPosition(seqArr []int) error {
+	//TODO add validator for req.Structs
+	if len(s.Players) != len(seqArr) {
+		return errors.New(fmt.Sprintf("[SetPlayerPosition] err: diff players count ses:%d opt:%d", len(s.Players), len(seqArr)))
+	}
+
+	var resultSeq []model.Player
+	for _, v := range seqArr {
+		resultSeq = append(resultSeq, s.Players[v])
+	}
+
+	for i, v := range resultSeq {
+		v.PlayerId = i
+	}
+
+	s.Players = resultSeq
+
+	return nil
+}
+
 func waitAction(action string, c *websocket.Conn) error {
 	var mess req.ActionReq
 	// Waiting for owner NEXT action

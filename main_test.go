@@ -1,20 +1,14 @@
 package main
 
 import (
-	"encoding/json"
-	"github.com/sanity-io/litter"
+	"fmt"
+	"math/rand"
 	"testing"
+	"time"
 )
 
 func Test_Main(t *testing.T) {
-	s := struct {
-		Text  string `json:"text"`
-		Inter int    `json:"inter"`
-	}{
-		Text:  "Option",
-		Inter: 23,
-	}
-	litter.Dump(s)
-	body, _ := json.Marshal(s)
-	litter.Dump(string(body))
+	rand.Seed(time.Now().UnixNano())
+	list := rand.Perm(6)
+	fmt.Println(list)
 }

@@ -97,7 +97,7 @@ func createGame(c *websocket.Conn) {
 		Conn:     c,
 		PlayerId: 0,
 		Name:     name,
-		Role:     "",
+		Role:     model.RoleCitizen,
 		IsAlive:  true,
 	}
 
@@ -119,7 +119,7 @@ func joinGame(c *websocket.Conn) {
 		Conn:     c,
 		PlayerId: 0,
 		Name:     name,
-		Role:     "",
+		Role:     model.RoleCitizen,
 		IsAlive:  true,
 	}
 

@@ -9,18 +9,8 @@ type Player struct {
 	Conn     *websocket.Conn
 	PlayerId int
 	Name     string
-	Role     string
+	Role     Role
 	IsAlive  bool
-}
-
-func NewPlayer(c *websocket.Conn, id int, name string, role string) *Player {
-	return &Player{
-		Conn:     c,
-		PlayerId: id,
-		Name:     name,
-		Role:     role,
-		IsAlive:  true,
-	}
 }
 
 func (p *Player) ToPlayerInfo() res.PlayerInfo {
